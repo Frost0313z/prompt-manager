@@ -76,6 +76,22 @@ def show_by_category(prompts):
     print(f"\n총 {len(matched)}개의 프롬프트")
 
 
+def search_prompt(prompts):
+    print("\n=== 프롬프트 검색 ===")
+    keyword = input("검색어: ").strip().lower()
+    matched = [
+        p for p in prompts
+        if keyword in p["title"].lower() or keyword in p["content"].lower()
+    ]
+    print("\n검색 결과:")
+    if not matched:
+        print("검색 결과가 없습니다.")
+        return
+    for i, prompt in enumerate(matched, start=1):
+        print(_format_line(i, prompt))
+    print(f"\n{len(matched)}개의 프롬프트를 찾았습니다.")
+
+
 def show_menu():
     print(MENU_TEXT)
     return input("선택: ").strip()
@@ -85,6 +101,7 @@ ACTIONS = {
     "1": add_prompt,
     "2": show_list,
     "3": show_by_category,
+    "4": search_prompt,
 }
 
 
