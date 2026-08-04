@@ -113,6 +113,32 @@ def show_detail(prompts):
     print("─" * 30)
 
 
+def manage_favorites(prompts):
+    print("\n=== 즐겨찾기 관리 ===")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+    choice = input("프롬프트 번호 입력: ").strip()
+    if not (choice.isdigit() and 1 <= int(choice) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+    prompt = prompts[int(choice) - 1]
+    prompt["favorite"] = not prompt["favorite"]
+    action = "추가" if prompt["favorite"] else "해제"
+    print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에 {action}했습니다!")
+
+
+def show_favorites(prompts):
+    print("\n=== 즐겨찾기 목록 ===")
+    favorites = [p for p in prompts if p["favorite"]]
+    if not favorites:
+        print("즐겨찾기한 프롬프트가 없습니다.")
+        return
+    for i, prompt in enumerate(favorites, start=1):
+        print(_format_line(i, prompt))
+    print(f"\n총 {len(favorites)}개의 즐겨찾기")
+
+
 def show_menu():
     print(MENU_TEXT)
     return input("선택: ").strip()
@@ -124,6 +150,8 @@ ACTIONS = {
     "3": show_by_category,
     "4": search_prompt,
     "5": show_detail,
+    "6": manage_favorites,
+    "7": show_favorites,
 }
 
 
