@@ -57,6 +57,25 @@ def show_list(prompts):
     print(f"\n총 {len(prompts)}개의 프롬프트")
 
 
+def show_by_category(prompts):
+    print("\n=== 카테고리별 조회 ===")
+    for i, name in enumerate(CATEGORIES, start=1):
+        print(f"{i}) {name}")
+    choice = input("선택: ").strip()
+    if not (choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES)):
+        print("잘못된 번호입니다.")
+        return
+    category = CATEGORIES[int(choice) - 1]
+    matched = [p for p in prompts if p["category"] == category]
+    print(f"\n[{category}] 카테고리 프롬프트:")
+    if not matched:
+        print("해당 카테고리에 프롬프트가 없습니다.")
+        return
+    for i, prompt in enumerate(matched, start=1):
+        print(_format_line(i, prompt))
+    print(f"\n총 {len(matched)}개의 프롬프트")
+
+
 def show_menu():
     print(MENU_TEXT)
     return input("선택: ").strip()
@@ -65,6 +84,7 @@ def show_menu():
 ACTIONS = {
     "1": add_prompt,
     "2": show_list,
+    "3": show_by_category,
 }
 
 
