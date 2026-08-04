@@ -31,6 +31,11 @@ def _choose_category():
     return choice or "기타"
 
 
+def _format_line(index, prompt):
+    star = " ⭐" if prompt["favorite"] else ""
+    return f"{index}. [{prompt['category']}] {prompt['title']}{star}"
+
+
 def add_prompt(prompts):
     print("\n=== 프롬프트 추가 ===")
     title = _read_nonempty("제목: ")
@@ -42,6 +47,16 @@ def add_prompt(prompts):
     print("\n프롬프트가 추가되었습니다!")
 
 
+def show_list(prompts):
+    print("\n=== 프롬프트 목록 ===")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+    for i, prompt in enumerate(prompts, start=1):
+        print(_format_line(i, prompt))
+    print(f"\n총 {len(prompts)}개의 프롬프트")
+
+
 def show_menu():
     print(MENU_TEXT)
     return input("선택: ").strip()
@@ -49,6 +64,7 @@ def show_menu():
 
 ACTIONS = {
     "1": add_prompt,
+    "2": show_list,
 }
 
 
